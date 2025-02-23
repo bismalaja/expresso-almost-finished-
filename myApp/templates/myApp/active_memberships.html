@@ -1,0 +1,77 @@
+{% extends 'myApp/layout.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <h1>My Memberships</h1>
+
+    {% if not user.is_authenticated %}
+    <div class="route">
+        <div class="route-content">
+            <p>Please <a href="{% url 'login' %}" style="color: #2e7d32; text-decoration: none;">login</a> to view your
+                memberships.</p>
+        </div>
+    </div>
+    {% else %}
+    {% if active_memberships %}
+    <h2 class="section-title">Active Memberships</h2>
+    <div class="ticket-grid">
+        {% for membership in active_memberships %}
+        <div class="ticket-card">
+            <div class="ticket-header">
+                <h3>{{ membership.user_ticket.ticket.route.train_line }}</h3>
+            </div>
+            <div class="ticket-body">
+                <div class="route-content">
+                    <p><strong>Type:</strong> {{ membership.user_ticket.ticket.get_ticket_type_display }}</p>
+                    <p><strong>Start Date:</strong> {{ membership.start_date|date:"M d, Y" }}</p>
+                    <p><strong>End Date:</strong> {{ membership.end_date|date:"M d, Y" }}</p>
+                    <p class="ticket-price">{{ membership.days_remaining }} Days Remaining</p>
+                </div>
+            </div>
+            <div class="ticket-footer">
+                <span class="ticket-btn" style="background-color: #2e7d32;">Active</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="route">
+        <div class="route-content">
+            <p style="color: white;">You have no active memberships.</p>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if expired_memberships %}
+    <h2 class="section-title">Expired Memberships</h2>
+    <div class="ticket-grid">
+        {% for membership in expired_memberships %}
+        <div class="ticket-card" style="opacity: 0.7;">
+            <div class="ticket-header" style="background-color: #1a1a1a;">
+                <h3>{{ membership.user_ticket.ticket.route.train_line }}</h3>
+            </div>
+            <div class="ticket-body">
+                <div class="route-content">
+                    <p><strong>Type:</strong> {{ membership.user_ticket.ticket.get_ticket_type_display }}</p>
+                    <p><strong>Start Date:</strong> {{ membership.start_date|date:"M d, Y" }}</p>
+                    <p><strong>End Date:</strong> {{ membership.end_date|date:"M d, Y" }}</p>
+                </div>
+            </div>
+            <div class="ticket-footer">
+                <span class="ticket-btn" style="background-color: #1a1a1a;">Expired</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="route" style="text-align: center; margin-top: 20px;">
+        <div class="route-content">
+            <a href="{% url 'dashboard' %}">
+                <button class="ticket-btn" style="max-width: 200px;">Browse available memberships</button>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

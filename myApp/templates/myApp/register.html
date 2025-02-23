@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: #2d2d2d;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2e7d32;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        table {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        label {
+            margin-bottom: 5px;
+            text-align: left;
+            font-weight: bold;
+            color: #e0e0e0;
+        }
+
+        input {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #404040;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        input:focus {
+            border-color: #2e7d32;
+            outline: none;
+            box-shadow: 0 0 5px rgba(46, 125, 50, 0.5);
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #2e7d32;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #1b5e20;
+        }
+
+        p {
+            margin-top: 20px;
+            color: #e0e0e0;
+        }
+
+        a {
+            color: #2e7d32;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        h4 {
+            margin-bottom: 20px;
+        }
+
+        .errorlist {
+            color: firebrick;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 10px 0;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h1>Register</h1>
+
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'error' %}
+        <h4 style="color: firebrick">{{message}}</h4>
+        {% else %}
+        <h4 style="color: green">{{message}}</h4>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td><label for="id_email">Email:</label></td>
+                    <td>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.email.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="id_first_name">First Name:</label></td>
+                    <td>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.first_name.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="id_last_name">Last Name:</label></td>
+                    <td>
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.last_name.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="id_password1">Password:</label></td>
+                    <td>
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.password1.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="id_password2">Confirm Password:</label></td>
+                    <td>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.password2.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="submit">Register</button></td>
+                </tr>
+            </table>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
+    </div>
+</body>
+
+</html>

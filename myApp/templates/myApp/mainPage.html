@@ -1,0 +1,103 @@
+{% extends 'myApp/layout.html' %}
+
+{% block content %}
+<div class="main-page-background"> <!-- Add this div -->
+    <div class="dashboard">
+        <h1>Welcome to our website, {% if user.is_authenticated %}{{ user.first_name }} {{ user.last_name }}{% else %}Guest{% endif %}</h1>
+
+        <div class="route">
+            <div class="route-content">
+                <h2>About Us</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p>Welcome to Expresso, your reliable train line service. We are dedicated to providing
+                                        fast, comfortable, and
+                                        affordable travel options for all our passengers. Enjoy your journey with us!</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">See our services!</h2>
+
+        <div class="ticket-grid">
+            <!-- Daily Ticket -->
+            <div class="ticket-card">
+                <div class="ticket-header">
+                    <h3>Active Memberships</h3>
+                </div>
+                <div class="ticket-body">
+                    <p>Your memberships, one place.</p>
+                    <p class="ticket-price">Metro opens in 2025!</p>
+                </div>
+                <div class="ticket-footer">
+                    <a href="{% url 'active_memberships' %}">
+                        <button class="ticket-btn">View Active Memberships</button>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Weekly Ticket -->
+            <div class="ticket-card">
+                <div class="ticket-header">
+                    <h3>Metro Lines</h3>
+                </div>
+                <div class="ticket-body">
+                    <p>Find the perfect metro line for you!</p>
+                    <p class="ticket-price">Starting from €2!</p>
+                </div>
+                <div class="ticket-footer">
+                    <a href="{% url 'dashboard' %}">
+                        <button class="ticket-btn">Get your membership</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- Close the div -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get all elements with class 'ticket-card'
+        const ticketCards = document.querySelectorAll('.ticket-card');
+
+        // Add event listeners to each ticket card
+        ticketCards.forEach(card => {
+            // When mouse enters the element
+            card.addEventListener('mouseenter', function () {
+                // Scale up the hovered card
+                this.style.transform = 'scale(1.1)';
+                this.style.transition = 'transform 0.3s ease';
+
+                // Scale down other cards
+                ticketCards.forEach(otherCard => {
+                    if (otherCard !== this) {
+                        otherCard.style.transform = 'scale(0.9)';
+                        otherCard.style.transition = 'transform 0.3s ease';
+                    }
+                });
+            });
+
+            // When mouse leaves the element
+            card.addEventListener('mouseleave', function () {
+                // Reset all cards to normal scale
+                ticketCards.forEach(card => {
+                    card.style.transform = 'scale(1)';
+                    card.style.transition = 'transform 0.3s ease';
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

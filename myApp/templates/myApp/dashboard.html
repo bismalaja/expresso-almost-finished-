@@ -1,0 +1,56 @@
+{% extends 'myApp/layout.html' %}
+{% block content %}
+<script src="static/myApp/js/search.js"></script>
+<!-- Dashboard -->
+<div class="dashboard">
+    <h1>Train Routes</h1>
+    <div class="search-container form-group my-2">
+        <input type="text" id="searchBar" class="form-control" placeholder="Search for a destination..."
+            onkeyup="filterRoutes()">
+    </div>
+    <!-- Company Description -->
+
+    <!-- Train Routes -->
+    {% for route in routes %}
+    <div class="route">
+
+        {% if route.image %}
+        <div class="route-image" style="background-image: url('{{ route.image }}');"></div>
+        {% endif %}
+
+        <div class="route-content">
+            <h2>Train line: {{ route.train_line }}</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Distance</th>
+                            <th>Stops</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ route.distance }} km</td>
+                            <td>
+                                <ul class="stops-list">
+                                    {% for station in route.stations.all %}
+                                    <li>{{ station.name }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                <a href="{% url 'view_tickets' route_id=route.id %}">
+                                    <button>Details</button>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
